@@ -1,4 +1,4 @@
-__version__ = 0.1.1
+__version__ = 0.2
 
 def hello_world():
     print("This is my first pip package!")
