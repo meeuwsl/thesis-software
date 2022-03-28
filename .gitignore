@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+#selfmade packages
+my_pip_package.egg-info
+
+
+
