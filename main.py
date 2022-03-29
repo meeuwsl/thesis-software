@@ -8,5 +8,5 @@ module = CameraModule()
 fake_module = TemperatureModule()
 
 manager.register(module)
-manager.register(module)
+manager.register(fake_module)
 

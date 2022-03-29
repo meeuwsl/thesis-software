@@ -6,7 +6,7 @@ class Manager:
     def register(self, module):
         #assert(issubclass(module.type(), ModuleInterface))
         assert(isinstance(module, ModuleInterface))
-        module.start()
+        module.onstart()
 
 
     def unregister(self, module):
