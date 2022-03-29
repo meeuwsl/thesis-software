@@ -9,3 +9,6 @@ class CameraModule:
     def extract_text(self, full_file_path: str) -> dict:
         """Overrides FormalParserInterface.extract_text()"""
         pass
+
+    def start(self):
+        print("start cameramodule")
