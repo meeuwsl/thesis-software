@@ -1,4 +1,4 @@
-from my_pip_package.interface import *
+from modular_steering.interface import *
 
 class CameraModule:
     """Extract text from a PDF."""
