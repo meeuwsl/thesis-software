@@ -1,4 +1,4 @@
-from modular_steering.interface import *
+from modular_steering.interface import ModuleInterface
 
 class TemperatureModule:
     """Extract text from an email."""
