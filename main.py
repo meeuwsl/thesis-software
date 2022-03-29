@@ -5,6 +5,8 @@ from modular_steering.manager import Manager
 
 manager = Manager()
 module = CameraModule()
+
+
 fake_module = TemperatureModule()
 
 manager.register(module)
