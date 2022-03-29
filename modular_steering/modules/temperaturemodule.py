@@ -1,7 +1,7 @@
 from modular_steering.interface import ModuleInterface
 
-class TemperatureModule:
-    """Extract text from an email."""
+class TemperatureModule(ModuleInterface):
+    """Extract text from a PDF."""
     def onmsgrecv(self, path: str, file_name: str) -> str:
         """Overrides FormalParserInterface.load_data_source()"""
         pass
