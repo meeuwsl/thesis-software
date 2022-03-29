@@ -130,7 +130,7 @@ dmypy.json
 
 
 #selfmade packages
-my_pip_package.egg-info
+modular_steering.egg-info
 
-
-
+#requirements
+requirements.txt

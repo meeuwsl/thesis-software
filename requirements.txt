@@ -1,2 +1,0 @@
--e git+git@github.com:meeuwsl/modular-steering.git@ea460879e3498fa29ab0f1bed7e56b43a396c373#egg=my_pip_package
-pkg-resources==0.0.0
