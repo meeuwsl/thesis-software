@@ -4,10 +4,10 @@ main:
 	python main.py
 
 test:
-	pytest tests/*
+	pytest main.py
 
 cov:
-	pytest tests/* --cov
+	pytest main.py --cov
 
 cov-fresh: install cov
 

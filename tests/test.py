@@ -9,4 +9,4 @@ def test_moduleimplementation1():
     assert(issubclass(CameraModule, ModuleInterface))
 
 def test_moduleimplementation2():
-    assert(not (issubclass(TemperatureModule, ModuleInterface)))
+    assert((issubclass(TemperatureModule, ModuleInterface)))

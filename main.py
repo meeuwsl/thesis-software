@@ -1,14 +1,21 @@
+
 from modular_steering.modules.cameramodule import CameraModule
 from modular_steering.modules.temperaturemodule import TemperatureModule
 from modular_steering.interface import ModuleInterface
 from modular_steering.manager import Manager
 
-manager = Manager()
-module = CameraModule()
 
+def test_manager():
+    assert(True)
+    
+    manager = Manager()
+    module = CameraModule()
+    fake_module = TemperatureModule()
 
-fake_module = TemperatureModule()
+    manager.register(module)
+    print("done")
+    manager.register(fake_module)
 
-manager.register(module)
-manager.register(fake_module)
+    manager.run()
 
+test_manager()
