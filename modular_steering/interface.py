@@ -1,6 +1,10 @@
 import abc 
 
 class ModuleInterface(metaclass=abc.ABCMeta):
+    def __init__(self):
+        print("interface initialised")
+
+
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'onmsgrecv') and 

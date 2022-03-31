@@ -44,7 +44,7 @@ class Manager_ui(tk.Tk):
                                                 background="white")
         self.button_labelframe_1 = tk.Button(self.labelframe_buttons, text="quit", height=2, width=2,
                                              font=self.my_font, background=self.color_absolem_green_automation,
-                                             command=self.quit_popup)
+                                             command=self.button_1_callback)
         # --------------------------------------------------------------------------------------------------------------
         # canvas indicators
         width_canvas = 200
@@ -88,7 +88,8 @@ class Manager_ui(tk.Tk):
     # button callbacks
     # ------------------------------------------------------------------------------------------------------------------
     def button_1_callback(self):
-        quit_popup()
+        #quit_popup()
+        self.destroy()
 
     def quit_popup(self):
         """
