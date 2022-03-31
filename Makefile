@@ -1,7 +1,9 @@
 .PHONY: main test cov install
 
 main:
-	python main.py
+	\
+	source env/bin/activate \
+	python main.py \
 
 test:
 	pytest main.py
@@ -13,3 +15,4 @@ cov-fresh: install cov
 
 install: 
 	pip install -e .[dev]
+

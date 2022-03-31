@@ -8,14 +8,13 @@ from modular_steering.manager import Manager
 def test_manager():
     assert(True)
     
-    manager = Manager()
-    module = CameraModule()
-    fake_module = TemperatureModule()
-
-    manager.register(module)
-    print("done")
-    manager.register(fake_module)
-
+    manager = Manager("192.168.1.104")
     manager.run()
+
+
+
+
+
+
 
 test_manager()
