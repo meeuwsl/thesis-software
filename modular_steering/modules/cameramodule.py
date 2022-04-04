@@ -4,10 +4,9 @@ class CameraModule:
     def __init__(self):
         super().__init__()
         print("cameramodule initialised")
+        pass
 
-
-    """Extract text from a PDF."""
-    def onmsgrecv((self, message, payload)):
+    def onmsgrecv(self, message, payload):
         pass
 
     def onstop(self):
