@@ -56,8 +56,9 @@ class Manager:
         #register wanted modules
         for m in wanted_modules:
             wanted_class = globals()[m + "Module"]
-            instance = wanted_class()
+            instance = wanted_class(self.ui.frame_content)
             self.register(instance)
+            self.ui.add_module(instance.get_ui())
 
 
         topics = []

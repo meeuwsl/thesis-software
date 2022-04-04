@@ -28,7 +28,9 @@ class ModuleInterface(metaclass=abc.ABCMeta):
     def onstart(self):
         raise NotImplementedError
 
-
+    @abc.abstractmethod
+    def get_ui(self):
+        raise NotImplementedError
 
 
 
