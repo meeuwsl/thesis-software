@@ -6,10 +6,10 @@ main:
 	python main.py \
 
 test:
-	pytest main.py
+	pytest -s main.py
 
 cov:
-	pytest main.py --cov
+	pytest -s main.py --cov
 
 cov-fresh: install cov
 

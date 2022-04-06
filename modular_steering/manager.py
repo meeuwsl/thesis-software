@@ -1,29 +1,23 @@
-available_modules = []
-
 from modular_steering.mqttclient import MqttClient
-
 from modular_steering.interface import ModuleInterface
+from modular_steering.manager_ui import Manager_ui
+
 from multiprocessing import Process
 
-from modular_steering.modules.cameramodule import CameraModule
-available_modules.append("Camera")
-
-from modular_steering.modules.temperaturemodule import TemperatureModule
-available_modules.append("Temperature")
-
-from modular_steering.manager_ui import Manager_ui
+from modular_steering.modules import * 
 
 
 
 
 
 class Manager:
-
     def __init__(self, broker_address):
         self.registered_modules = []
         self.ui = Manager_ui()
         self.mqtt_client = MqttClient(broker_address, self.on_message)
+        
         pass
+
 
 
     def register(self, module):
@@ -41,7 +35,10 @@ class Manager:
 
 
     def run(self):
-        print("available modules: ", available_modules)
+        #print("available modules: ", modules)
+        #print("global modules: ", g)
+
+        #print("available modules: ", available_modules)
         #ask what modules one wants to use in this setup
         print("specify what modules do you want: ", end="")
         wanted_modules = input().split()
@@ -55,7 +52,7 @@ class Manager:
         
         #register wanted modules
         for m in wanted_modules:
-            wanted_class = globals()[m + "Module"]
+            wanted_class = globals()[ m + "Module"]
             instance = wanted_class(self.ui.frame_content)
             self.register(instance)
             self.ui.add_module(instance.get_ui())
