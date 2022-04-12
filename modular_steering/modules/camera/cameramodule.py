@@ -17,7 +17,10 @@ class CameraModule:
         button5.pack(side = tk.BOTTOM) 
 
         button6 = tk.Button(self.ui_frame, text ="Block6", fg ="orange")
-        button6.pack(side = tk.BOTTOM) 
+        button6.pack(side = tk.BOTTOM)
+            
+        button7 = tk.Button(self.ui_frame, text ="Block6", fg ="orange")
+        button7.pack(side = tk.TOP) 
 
 
 

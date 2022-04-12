@@ -13,11 +13,12 @@ import tkinter as tk  # GUI toolkit
 
 class Manager:
     def __init__(self, broker_address):
-        self.registered_modules = []
         self.root = tk.Tk()
         self.ui = Manager_ui(self.root, self)
+
         self.mqtt_client = MqttClient(broker_address, self.on_message)
         
+        self.registered_modules = {}
         self.available_modules = []
         self.available_modules1 = {}
 
@@ -56,22 +57,22 @@ class Manager:
         #ask what modules one wants to use in this setup
         #print("specify what modules do you want: ", end="")
         #wanted_modules = input().split()
-        wanted_modules = []
+        #wanted_modules = []
   
 
         # output
-        print(wanted_modules)
+        #print(wanted_modules)
         
 
         #print("wanted modules: ", wanted_modules)
 
         
         #register wanted modules
-        for m in wanted_modules:
-            wanted_class = globals()[ m + "Module"]
-            instance = wanted_class(self.ui.frame_content)
-            self.register(instance)
-            self.ui.add_module(instance.get_ui())
+        # for m in wanted_modules:
+        #     wanted_class = globals()[ m + "Module"]
+        #     instance = wanted_class(self.ui.frame_content)
+        #     self.register(instance)
+        #     self.ui.add_module(instance.get_ui())
 
 
         topics = []
@@ -103,3 +104,18 @@ class Manager:
 
     def test1(self):
         print("method from manager executed")
+
+
+    def add_module(self, wanted_module, wanted_name, wanted_ip):
+        wanted_class = self.available_modules1.get(wanted_module)
+        instance = wanted_class(self.ui.frame_content)
+        print("instance :" , instance)
+        self.ui.add_module(instance.get_ui())
+        #self.add_module(instance)
+        self.registered_modules[wanted_name] = instance
+        pass
+
+
+    def remove_module(self, wanted_module):
+        self.ui.remove_ui(self.registered_modules.get(wanted_module))
+        self.registered_modules.pop(wanted_module)
