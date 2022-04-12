@@ -6,6 +6,7 @@ from multiprocessing import Process
 
 from modular_steering.modules import * 
 
+import tkinter as tk  # GUI toolkit
 
 
 
@@ -13,9 +14,23 @@ from modular_steering.modules import *
 class Manager:
     def __init__(self, broker_address):
         self.registered_modules = []
-        self.ui = Manager_ui()
+        self.root = tk.Tk()
+        self.ui = Manager_ui(self.root, self)
         self.mqtt_client = MqttClient(broker_address, self.on_message)
         
+        self.available_modules = []
+        self.available_modules1 = {}
+
+        for (key, value) in globals().items():
+            if key[-6:] == "Module":
+                #print(key + "aanwezig")
+                self.available_modules.append(key)
+                self.available_modules1.update({key : value})
+                print(value)
+
+        self.ui.options1 = self.available_modules1
+
+        self.ui.set_optional_modules(self.available_modules)
         pass
 
 
@@ -35,19 +50,20 @@ class Manager:
 
 
     def run(self):
-        #print("available modules: ", modules)
-        #print("global modules: ", g)
+        print("available modules: ", self.available_modules)
+        
 
-        #print("available modules: ", available_modules)
         #ask what modules one wants to use in this setup
-        print("specify what modules do you want: ", end="")
-        wanted_modules = input().split()
+        #print("specify what modules do you want: ", end="")
+        #wanted_modules = input().split()
+        wanted_modules = []
   
+
         # output
         print(wanted_modules)
         
 
-        print("wanted modules: ", wanted_modules)
+        #print("wanted modules: ", wanted_modules)
 
         
         #register wanted modules
@@ -84,3 +100,6 @@ class Manager:
     def on_message(payload):
         print("received message from mqtt: ", payload)
         pass
+
+    def test1(self):
+        print("method from manager executed")
