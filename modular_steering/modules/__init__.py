@@ -4,6 +4,10 @@ import os
 
 from .camera import CameraModule
 from .temperature import TemperatureModule
+from .linax import LinaxModule
+from .printer import PrinterModule
+from .adc import AdcModule
+from .relay import RelayModule
 
 #for module in os.listdir(os.path.dirname(__file__)):
 #    if module == '__init__.py' or module[-3:] != '.py':
