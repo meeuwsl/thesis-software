@@ -4,8 +4,8 @@ import tkinter as tk  # GUI toolkit
 
 
 class TemperatureModule(ModuleInterface):
-    def __init__(self, root):
-        super().__init__()
+    def __init__(self, root, mqttclient):
+        super().__init__(mqttclient)
         self.ui = tk.Button(text="camera", height=2, width=2)
 
         self.ui_frame = tk.Frame(root) 

@@ -2,10 +2,17 @@ from modular_steering.interface import ModuleInterface
 
 import tkinter as tk  # GUI toolkit
 
+import json
+import base64
+import binascii
 
-class CameraModule:
-    def __init__(self, root):
-        super().__init__()
+import time
+
+
+
+class CameraModule(ModuleInterface):
+    def __init__(self, root, mqttclient):
+        super().__init__(mqttclient)
         self.ui = tk.Button(text="camera", height=2, width=2)
 
         self.ui_frame = tk.Frame(root) 
@@ -21,6 +28,9 @@ class CameraModule:
             
         button7 = tk.Button(self.ui_frame, text ="Block6", fg ="orange")
         button7.pack(side = tk.TOP) 
+
+        self.entry_name_picture = tk.Entry(self.ui_frame, textvariable=tk.StringVar())
+        self.entry_name_picture.pack(side=tk.TOP)
 
 
 
@@ -45,3 +55,26 @@ class CameraModule:
 
     def block5(self):
         print("block5")
+        self.send_test_message()
+
+    def send_test_message(self):
+        begin = time.time()
+
+        name = self.entry_name_picture.get()
+        msg = {"name":name, "begin" : begin}
+        
+
+        #with open("resources/logo.png", "rb") as image_file:
+        with open("resources/bedroom-spa-suite.jpg", "rb") as image_file:
+            data = binascii.b2a_base64(image_file.read()).decode()
+
+        print("converted string type: ", type(data))
+        # f=open("resources/logo.png", "rb") #3.7kiB in same folder
+        # fileContent = f.read()
+        # byteArr = bytearray(fileContent)
+        # image = base64.decodestring(json.dumps(data)['image'])
+
+        msg.update({ "picture": data })
+        #print(msg)
+        self.mqttclient.send("test/image", json.dumps(msg))
+        end = time.time()

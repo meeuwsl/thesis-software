@@ -1,8 +1,11 @@
 import abc 
 
 class ModuleInterface(metaclass=abc.ABCMeta):
-    def __init__(self):
+    def __init__(self, mqttclient):
         print("interface initialised")
+        self.mqttclient = mqttclient
+        self.mqttclient.send("test/test", "new message")
+        
 
 
     @classmethod
