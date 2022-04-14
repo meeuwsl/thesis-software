@@ -33,7 +33,12 @@ class MqttClient():
 
 
     def callback(self, client, userdata, message):
-        print("Received message '" + str(message.payload) + "' on topic '"
-        + message.topic + "' with QoS " + str(message.qos))
+        self.on_message(message)
+        #print("Received message '" + str(message.payload) + "' on topic '"
+        #+ message.topic + "' with QoS " + str(message.qos))
+
+    def send(self, topic, message):
+        print("called send")
+        self.client.publish(topic, payload=message, qos=0, retain=False)
 
 
