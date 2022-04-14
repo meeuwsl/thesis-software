@@ -8,8 +8,11 @@ from modular_steering.modules import *
 
 import tkinter as tk  # GUI toolkit
 
+import json
+import base64
+import binascii
 
-
+import time
 
 class Manager:
     def __init__(self, broker_address):
@@ -32,6 +35,7 @@ class Manager:
         self.ui.options1 = self.available_modules1
 
         self.ui.set_optional_modules(self.available_modules)
+
         pass
 
 
@@ -77,6 +81,8 @@ class Manager:
 
         topics = []
         topics.append("test/message")
+        topics.append("test/test")
+        topics.append("test/image")
 
         #start mqtt_client
         self.mqtt_client.start(topics)
@@ -98,8 +104,25 @@ class Manager:
         self.ui.stop()
 
 
-    def on_message(payload):
-        print("received message from mqtt: ", payload)
+    def on_message(self, message):
+        #print("manager: received message from mqtt: ", message.payload)
+        
+
+        if(message.topic == "test/image"):
+            #print ("Topic : ", message.topic)
+            msg_dict = json.loads(message.payload)
+            picture_name = msg_dict.get("name")
+            picture_content = msg_dict.get("picture")
+            #print("in manager type of picture content: ", type(picture_content))
+            picture_filename = "tmp/" + "name_" + picture_name + ".jpg"
+            f = open(picture_filename, "wb")  #there is a output.jpg which is different
+            f.write(binascii.a2b_base64(picture_content))
+            f.close()
+            begin = msg_dict.get("begin")
+            end = time.time()
+            print("sending + receiving took: ", end-begin)
+
+
         pass
 
     def test1(self):
@@ -108,7 +131,7 @@ class Manager:
 
     def add_module(self, wanted_module, wanted_name, wanted_ip):
         wanted_class = self.available_modules1.get(wanted_module)
-        instance = wanted_class(self.ui.frame_content)
+        instance = wanted_class(self.ui.frame_content, self.mqtt_client)
         print("instance :" , instance)
         self.ui.add_module(instance.get_ui())
         #self.add_module(instance)
