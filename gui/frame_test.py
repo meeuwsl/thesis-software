@@ -39,4 +39,6 @@ button5.pack(side = BOTTOM)
 button6 = Button(bottomframe, text ="Block6", fg ="orange") 
 button6.pack(side = BOTTOM) 
 
+print(bottomframe.winfo_children())
+
 root.mainloop()
