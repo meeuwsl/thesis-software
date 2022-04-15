@@ -3,7 +3,6 @@ from tkinter import ttk
 import os 
 import random 
 
-test
 
 def getRandomCol():
     
