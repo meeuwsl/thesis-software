@@ -22,7 +22,7 @@ class Manager_ui(tk.Tk):
         
         # window configuration
         self.configure(background="white")
-        self.attributes("-fullscreen", True) # full screen window
+        self.attributes("-fullscreen", False) # full screen window
         self.path = str(os.getcwd())
         # fonts
         self.my_font_title = ('Akkurat TT Light', 25)

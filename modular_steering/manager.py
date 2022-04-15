@@ -1,6 +1,7 @@
 from modular_steering.mqttclient import MqttClient
 from modular_steering.interface import ModuleInterface
 from modular_steering.manager_ui import Manager_ui
+from modular_steering.control_ui import Control_ui
 
 from multiprocessing import Process
 
@@ -94,9 +95,12 @@ class Manager:
 #        self.register(module)
         print("done")
 #        self.register(fake_module)
+        self.control_ui = Control_ui(self)
 
         #gui = Process(target=self.ui.mainloop(), args=())
         self.ui.mainloop()
+        print("ui started")
+        
         #gui.start()
         #gui.join()
 
