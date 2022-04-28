@@ -15,6 +15,8 @@ class LinaxModule(ModuleInterface):
         super().__init__(mqttclient)
 
         self.ui_frame = tk.Frame(root) 
+        button1 = tk.Button(self.ui_frame, text = "move sled", fg = "orange")
+        button1.pack(side= tk.BOTTOM)
 
         print("LinaxModule initialised")
         pass

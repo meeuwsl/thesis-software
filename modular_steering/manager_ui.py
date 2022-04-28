@@ -7,124 +7,68 @@ import time  # time access and conversions
 import tkinter.messagebox
 from tkinter import simpledialog
 
-
-
-
 from tkinter import ttk
 
 os.environ.__setitem__('DISPLAY', ':0.0')
 
-class Manager_ui(tk.Tk):
-    def __init__(self, master, master_obj):
+class Manager_ui():
+    def __init__(self, root_, master_obj):
         self.master_obj = master_obj
-        self.root = master
-        super().__init__()  # call tk.Tk.__init__() to initialize tkinter object
+        self.root = root_
         
-        # window configuration
-        self.configure(background="white")
-        self.attributes("-fullscreen", False) # full screen window
+        self.root.geometry("230x300")
+
+        self.menubar = tk.Menu(self.root)
+        self.filemenu = tk.Menu(self.menubar, tearoff=0)
+        self.filemenu.add_command(label="Exit", command=self.root.quit)
+        self.menubar.add_cascade(label="File", menu=self.filemenu)
+        self.root.config(menu=self.menubar)
+
+        self.frame_edit = tk.Frame(self.root, background="grey", bd=1, relief="sunken" )
+        self.frame_edit.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
+        self.frame_edit.columnconfigure(0, weight = 1)
+        self.frame_edit.columnconfigure(1, weight = 1)
+        self.frame_edit.columnconfigure(2, weight = 1)
+        self.frame_edit.rowconfigure(0, weight = 1)
+
+        self.edit_add = tk.Button(self.frame_edit, text = "+", command=self.add_callback)
+        self.edit_add.grid(row=0, column=2, sticky='nesw')
+        self.edit_edit = tk.Button(self.frame_edit, text = "edit", command=self.edit_callback)
+        self.edit_edit.grid(row=0, column=1, sticky='nesw')
+        self.edit_remove = tk.Button(self.frame_edit, text = "-", command=self.remove_callback)
+        self.edit_remove.grid(row=0, column=0, sticky='nesw')
+
+        self.frame_list = tk.Frame(self.root, background="grey", bd=1, relief="sunken" )
+        self.frame_list.grid(row=1, column=0, sticky="nsew", padx=2, pady=2)
+        self.frame_list.rowconfigure(0, weight = 1)
+        self.frame_list.columnconfigure(0, weight = 1)
+
+        self.selected_modules_listbox = tk.Listbox(self.frame_list)
+        self.selected_modules_listbox.grid(row=0, column=0, sticky='nesw')
+        self.selected_modules_listbox.insert(1, "1")
+
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_rowconfigure(1, weight=25)
+        self.root.grid_columnconfigure(0, weight=1)
+
         self.path = str(os.getcwd())
-        # fonts
-        self.my_font_title = ('Akkurat TT Light', 25)
-        self.my_font = ('Helvetica', 11)
-        self.my_font_bold = ('Helvetica', 11, "bold")
-        self.my_font_italic = ('Helvetica', 11, "italic")
 
-        # colors (HEX)
-        self.color_absolem_green = "#6BC2B4"
-        self.color_absolem_lightblue = "#54779A"
-        self.color_absolem_darkblue = "#1B4093"
-        self.color_absolem_grey = "#EDEDED"
-        self.color_absolem_green_automation = "#9DD1B7"
-        self.color_absolem_blue_innovation = "#8ECCE2"
-        self.color_absolem_blue_industry = "#ADD3DE"
-        self.color_absolem_blue_prototype = "#6C97C1"
-        # --------------------------------------------------------------------------------------------------------------
-        # frames
-        self.frame_content = tk.Frame(self, background="white")
-        self.frame_buttons = tk.Frame(self, width=500, height=100, background="grey")
-        self.frame_buttons.columnconfigure(0, weight=1)
-        self.frame_buttons.rowconfigure(0, weight=1)
-        self.frame_buttons.grid_propagate(0)
-
-        
-        
-        # --------------------------------------------------------------------------------------------------------------
-        # quit
-        self.labelframe_quit = tk.LabelFrame(self.frame_buttons, text="quit", font=self.my_font,
-                                                background="white")
-        self.button_labelframe_quit = tk.Button(self.labelframe_quit, text="quit", height=2, width=2,
-                                             font=self.my_font, background=self.color_absolem_green_automation,
-                                             command=self.button_quit_callback)
-        
-        self.button_labelframe_quit.grid(row=0, column=0, padx=5, pady=5, sticky="nw")
-        self.labelframe_quit.grid(row=0, column=0, padx=5, pady=5, sticky="nw")
-
-
-
-        self.module1 = tk.LabelFrame(self.frame_content, text="module 1", font=self.my_font, background="white")
-        self.b = tk.Button(self.module1, text = "module1", height = 2, width = 2)
-      
-        # drop down with optional modules 
-        self.b_add_module = tk.Button(self.frame_content, text = "add", command=self.add_callback)
-        self.b_remove_module = tk.Button(self.frame_content, text = "remove", command=self.remove_callback)
-        self.b_edit_module = tk.Button(self.frame_content, text = "edit", command=self.edit_callback)
-        self.b_test = tk.Button(self.frame_content, text = "test", command=self.master_obj.test1)
-
-        # list of selected modules
         self.selected_modules = []
-        self.selected_modules_listbox = tk.Listbox(self.frame_content)
-
-        # call initialization class methods
-        self.geometry_manager()
-
-    def geometry_manager(self):
-        """
-        Control the application layout using tk.pack(), tk.place() and tk.grid()
-        """
-        # --------------------------------------------------------------------------------------------------------------
-        # frames
-        #self.frame_content.pack(side="bottom", fill="both", expand=True, padx=5, pady=(0, 5))
-        self.frame_content.pack(side = "bottom")
-        self.frame_buttons.pack(side = "top")
-        # --------------------------------------------------------------------------------------------------------------
-
-        # labelframe with buttons
-        # --------------------------------------------------------------------------------------------------------------
-
-
-        # modules 
-        #self.module1.grid(row = 0, column = 1, padx=5, pady=5, sticky="nw")
-        #self.b.grid(row = 0, column = 1, padx=5, pady=5, sticky="nw")
-
-        self.b_add_module.pack(side = "bottom")
-        self.b_remove_module.pack(side = "bottom")
-        self.b_edit_module.pack(side = "bottom")
-        self.b_test.pack(side = "bottom")
-
-        self.selected_modules_listbox.pack(side = "bottom")
-
+        
+        self.options = []
+        #self.root.mainloop()
 
     # button callbacks
     # ------------------------------------------------------------------------------------------------------------------
-    def button_quit_callback(self):
-        self.destroy()
-
-    def stop(self):
-        self.destroy()
-
-
 
     def edit_callback(self):
         pass
 
     def add_callback(self):
-        wanted_module, wanted_name, wanted_ip = self.popup(self.options) 
-        print(wanted_module)
-        self.master_obj.add_module(wanted_module, wanted_name, wanted_ip)
-        #popup = Popup()
-#        print(popup.get_value(options))
-        self.selected_modules_listbox.insert(1, wanted_name)
+        wanted_module, wanted_name, wanted_ip, wanted_location = self.popup(self.options) 
+        print("inputted location: ", wanted_location)
+        self.master_obj.add_module(wanted_module, wanted_name, wanted_ip, wanted_location)
+        #self.selected_modules_listbox.insert(1, wanted_name)
         #wanted_class = self.options1.get(wanted_module)
         #instance = wanted_class(self.frame_content)
         #self.add_module(instance)
@@ -141,6 +85,9 @@ class Manager_ui(tk.Tk):
         #print(self.selected_modules_listbox.curselection())
         
 
+    def popup(self, options):
+        dialog = MyDialog(title=".", parent=self.root, options=options)
+        return dialog.my_module, dialog.my_name, dialog.my_ip, dialog.my_location
 
 
     def add_module(self, ui_frame):
@@ -160,18 +107,11 @@ class Manager_ui(tk.Tk):
 
     def set_optional_modules(self, modules):
         self.options = modules
-        #clicked = tk.StringVar()
-
-        #self.drop_down = ttk.Combobox(self.frame_content, values = self.options)
-
-        #self.drop_down.grid()
     
     
 
 
-    def popup(self, options):
-        dialog = MyDialog(title="Login", parent=self.frame_content,options=options)
-        return dialog.my_module, dialog.my_name, dialog.my_ip
+   
 
 
 
@@ -187,6 +127,7 @@ class MyDialog(tk.simpledialog.Dialog):
         self.my_name = None
         self.my_ip = None
         self.my_module = None
+        self.my_location = None
         super().__init__(parent, title)
 
     def body(self, frame):
@@ -207,6 +148,12 @@ class MyDialog(tk.simpledialog.Dialog):
         self.my_ip_entry = tk.Entry(frame, width=25)
         self.my_ip_entry.pack()
 
+        self.my_location_label = tk.Label(frame, width=25, text="location")
+        self.my_location_label.pack()
+        self.my_location_entry = tk.Entry(frame, width=25)
+        self.my_location_entry.pack()
+        
+
         return frame
 
     def ok_pressed(self):
@@ -214,6 +161,7 @@ class MyDialog(tk.simpledialog.Dialog):
         self.my_name = self.my_name_entry.get()
         self.my_ip = self.my_ip_entry.get()
         self.my_module = self.module.get()
+        self.my_location = int(self.my_location_entry.get())
         self.destroy()
 
     def cancel_pressed(self):
