@@ -76,6 +76,7 @@ class Manager:
 
 
     def run(self):
+        print("extra line------------------------------------------------")
         print("available modules: ", self.available_modules_arr)
         
 
