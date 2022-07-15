@@ -9,7 +9,7 @@ from tkinter import simpledialog
 
 from tkinter import ttk
 
-os.environ.__setitem__('DISPLAY', ':0.0')
+#os.environ.__setitem__('DISPLAY', ':0.0')
 
 class Manager_ui():
     def __init__(self, root_, master_obj):

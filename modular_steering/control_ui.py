@@ -17,7 +17,7 @@ class Control_ui():
 
         for r in range(0, self.rows):
             for c in range(0, self.cols):
-                self.frames.update( { (r, c) : tk.Frame(self.root, background="#FFF0C1", bd=1, relief="sunken" ) } )
+                self.frames.update( { (r, c) : tk.Frame(self.root, background="#000000", bd=1, relief="sunken" ) } )
                 self.frames.get((r, c)).grid(row=r, column=c, sticky="nsew", padx=2, pady=2)
 
 

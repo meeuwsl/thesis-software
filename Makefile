@@ -1,8 +1,7 @@
 .PHONY: main test cov install
 
 main:
-	\
-	source env/bin/activate \
+	source ./env/bin/activate \
 	python main.py \
 
 test:
