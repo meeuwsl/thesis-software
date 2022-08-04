@@ -1,0 +1,30 @@
+{
+    "specifications" : {
+        "end_devices_count" : "2",
+        "broker_ip" : "192.169.1.104"
+    },
+    "end_devices" : [
+        {
+            "name" : "end1",
+            "ip":"192.168.1.104",
+            "modules": [
+                {
+                    "name" : "1",
+                    "type" : "camera",
+                    "specifications" : ""
+                }
+            ]
+        },
+        {
+            "name": "end2",
+            "ip" : "192.168.1.103",
+            "modules": [
+                {
+                    "name" : "1",
+                    "type" : "thermocouple",
+                    "specifications" : "" 
+                }
+            ]
+        }
+    ]
+}

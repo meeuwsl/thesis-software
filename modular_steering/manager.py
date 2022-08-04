@@ -16,7 +16,9 @@ import binascii
 import time
 
 class Manager:
-    def __init__(self, broker_address):
+    def __init__(self, broker_address, conf_data):
+
+        self.conf_data = conf_data
         self.root = tk.Tk()
         self.manager_ui = Manager_ui(master_obj=self, root_=self.root)
         print("manager_ui initialised")
