@@ -1,13 +1,13 @@
 from modular_steering.mqttclient import MqttClient
 from modular_steering.interface import ModuleInterface
-from modular_steering.manager_ui import Manager_ui
-from modular_steering.control_ui import Control_ui
+#from modular_steering.manager_ui import Manager_ui
+#from modular_steering.control_ui import Control_ui
 
 from multiprocessing import Process
 
 from modular_steering.modules import * 
 
-import tkinter as tk  # GUI toolkit
+#import tkinter as tk  # GUI toolkit
 
 import json
 import base64
@@ -16,52 +16,63 @@ import binascii
 import time
 
 class Manager:
-    def __init__(self, broker_address, conf_data):
+    def __init__(self, broker_address, conf_data, self_ip):
+
 
         self.conf_data = conf_data
-        self.root = tk.Tk()
-        self.manager_ui = Manager_ui(master_obj=self, root_=self.root)
-        print("manager_ui initialised")
-        self.control_ui = Control_ui(master_obj=self, root_=self.root)
-        print("control_ui initialised")
+        self.broker_address = broker_address
+        self.self_ip = self_ip
+        #self.root = tk.Tk()
+        #self.manager_ui = Manager_ui(master_obj=self, root_=self.root)
+        #print("manager_ui initialised")
+        #self.control_ui = Control_ui(master_obj=self, root_=self.root)
+        #print("control_ui initialised")
 
-        self.mqtt_client = MqttClient(broker_address, self.on_message)
+        self.mqtt_client = MqttClient(self.broker_address, self.on_message)
         
+        self.parse_conf_data()
         self.registered_modules = {}
         self.available_modules_dict = {}
         self.available_modules_arr = []
 
-        self.locations = {
-            0 : (0,0),
-            1 : (0,1),
-            2 : (0,2),
-            3 : (0,3),
-            4 : (1,0),
-            5 : (1,1),
-            6 : (1,2),
-            7 : (1,3),
-            8 : (1,4),
-        }
+        # self.locations = {
+        #     0 : (0,0),
+        #     1 : (0,1),
+        #     2 : (0,2),
+        #     3 : (0,3),
+        #     4 : (1,0),
+        #     5 : (1,1),
+        #     6 : (1,2),
+        #     7 : (1,3),
+        #     8 : (1,4),
+        # }
 
-        for (key, value) in globals().items():
-            if key[-6:] == "Module":
-                #print(key + "aanwezig")
-                self.available_modules_arr.append(key)
-                self.available_modules_dict.update({key : value})
-                print(value)
+        # for (key, value) in globals().items():
+        #     if key[-6:] == "Module":
+        #         #print(key + "aanwezig")
+        #         self.available_modules_arr.append(key)
+        #         self.available_modules_dict.update({key : value})
+        #         print(value)
+        # self.manager_ui.options1 = self.available_modules_arr
+        # self.manager_ui.set_optional_modules(self.available_modules_arr)
 
-        self.manager_ui.options1 = self.available_modules_arr
-
-        self.manager_ui.set_optional_modules(self.available_modules_arr)
-        print("modules set")
-
-        print("before")
-        print("after")
 
 
         pass
 
+    def parse_conf_data(self):
+        end_device_count = len(self.conf_data["end_devices"])
 
+        for i in range(end_device_count):
+            if (self.conf_data["end_devices"][i]["ip"] == self.self_ip):
+                self.conf_this_end_device = self.conf_data["end_devices"][i]
+        
+        modules_count = len(self.conf_this_end_device["modules"])
+
+        for i in range(modules_count):
+            print(self.conf_data["end_devices"][0]["modules"][i]["topic"])
+    
+        print("parsed configuration data")
 
     def register(self, module):
         module.onstart()
@@ -69,17 +80,14 @@ class Manager:
         print(self.registered_modules)
         pass
 
-
     def unregister(self, module):
         pass
     
     def publish(topic, data):
         pass
 
-
     def run(self):
-        print("extra line------------------------------------------------")
-        print("available modules: ", self.available_modules_arr)
+        #print("available modules: ", self.available_modules_arr)
         
 
         #ask what modules one wants to use in this setup
@@ -103,46 +111,52 @@ class Manager:
         #     self.ui.add_module(instance.get_ui())
 
 
+        temperatureModule = TemperatureModule(self.mqtt_client)
+        a= Process(target=temperatureModule.onstart)
+        a.start()
+
+        cameramodule = CameraModule(self.mqtt_client)
+        b = Process(target=cameramodule.onstart)
+        b.start()
+
         topics = []
         topics.append("test/message")
         topics.append("test/test")
         topics.append("test/image")
+        topics.append("test/debug")
 
         #start mqtt_client
         self.mqtt_client.start(topics)
+    
 
+        # module = CameraModule()
+        # fake_module = TemperatureModule()
 
-#        module = CameraModule()
-#        fake_module = TemperatureModule()
-
-#        self.register(module)
-        print("done")
-#        self.register(fake_module)
+        # self.register(module)
+        # self.register(fake_module)
         #self.control_ui = Control_ui(self)
 
         #gui = Process(target=self.ui.mainloop(), args=())
         #self.manager_ui.mainloop()
         #self.control_ui.mainloop()
-        print("ui started")
         
         #gui.start()
         #gui.join()
         
-        
+        self.mqtt_client.send("test/debug", "aa")
         
         #self.manager_ui.root.mainloop()
-        print("between")
-        self.control_ui.root.mainloop()
-        print("done with run")
-
+        #self.control_ui.root.mainloop()
+        print("end")
 
     def stop(self):
         self.manager_ui.stop()
 
-
     def on_message(self, message):
-        #print("manager: received message from mqtt: ", message.payload)
+        print("manager: received message from mqtt: ", message.payload)
         
+        if(message.topic == "test/debug"):
+            print("received debug message")
 
         if(message.topic == "test/image"):
             #print ("Topic : ", message.topic)
@@ -164,7 +178,6 @@ class Manager:
     def test1(self):
         print("method from manager executed")
 
-
     def add_module(self, wanted_module, wanted_name, wanted_ip, wanted_location):
         wanted_class = self.available_modules_dict.get(wanted_module)
         print("location int in manager: ", wanted_location)
@@ -175,7 +188,6 @@ class Manager:
         #self.add_module(instance)
         self.registered_modules[wanted_name] = instance
         pass
-
 
     def remove_module(self, wanted_module):
         self.manager_ui.remove_ui(self.registered_modules.get(wanted_module))

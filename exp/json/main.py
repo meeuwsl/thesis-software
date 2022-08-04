@@ -4,12 +4,20 @@ conf_file = open("exp/json/config.json")
 conf_data = json.load(conf_file)
 #print(conf_data)
 #print(type(conf_data))
-print(conf_data["end_devices"][1])
+#print(conf_data["end_devices"][0]["modules"][0]["topic"])
+
+self_ip = "192.168.1.104"
+
+end_device_count = len(conf_data["end_devices"])
+print(end_device_count)
+
+for i in range(end_device_count):
+    if (conf_data["end_devices"][i]["ip"] == self_ip):
+        conf_this_end_device = conf_data["end_devices"][i]
 
 
-
-
-
+modules_count = len(conf_this_end_device["modules"])
+print(modules_count)
 
 
 

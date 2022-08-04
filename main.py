@@ -33,7 +33,7 @@ def main():
     conf_data = json.load(conf_file)
 
     #init namager with ip of this device
-    manager = Manager(ip, conf_data)
+    manager = Manager(ip, conf_data, ip)
 
     #run
     manager.run()

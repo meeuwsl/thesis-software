@@ -11,29 +11,8 @@ import time
 
 
 class CameraModule(ModuleInterface):
-    def __init__(self, root, mqttclient):
+    def __init__(self, mqttclient):
         super().__init__(mqttclient)
-        self.ui = tk.Button(text="camera", height=2, width=2)
-
-        self.ui_frame = tk.Frame(root) 
-
-        button4 = tk.Button(self.ui_frame, text ="Block4", fg ="orange") 
-        button4.pack(side = tk.BOTTOM) 
-
-        button5 = tk.Button(self.ui_frame, text ="Block5", fg ="orange", command=self.block5) 
-        button5.pack(side = tk.BOTTOM) 
-
-        button6 = tk.Button(self.ui_frame, text ="Block6", fg ="orange")
-        button6.pack(side = tk.BOTTOM)
-            
-        button7 = tk.Button(self.ui_frame, text ="Block6", fg ="orange")
-        button7.pack(side = tk.TOP) 
-
-        self.entry_name_picture = tk.Entry(self.ui_frame, textvariable=tk.StringVar())
-        self.entry_name_picture.pack(side=tk.TOP)
-
-
-
         print("cameramodule initialised")
         pass
 
@@ -43,11 +22,12 @@ class CameraModule(ModuleInterface):
     def onstop(self):
         print("stop cameramodule")
         pass
-
+        
     def onstart(self):
-        print("start cameramodule")
-        pass
-
+        print("started cameramodule")
+        while(1):
+            time.sleep(3)
+            print("cameramodule running..")
 
     def get_ui(self):
         return self.ui_frame

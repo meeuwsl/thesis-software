@@ -11,7 +11,11 @@
                 {
                     "name" : "1",
                     "type" : "camera",
-                    "specifications" : ""
+                    "specifications" : "",
+                    "topic" : "camera1"
+                },
+                {
+                    "topic" : "extra topic"
                 }
             ]
         },
