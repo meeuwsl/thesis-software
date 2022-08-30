@@ -7,26 +7,30 @@
         {
             "name" : "end1",
             "ip":"192.168.1.104",
+          	"mqtt_broker: "true", 
+          	"module_count": 2,
             "modules": [
                 {
-                    "name" : "1",
+                    "id" : "1",
                     "type" : "camera",
-                    "specifications" : "",
                     "topic" : "camera1"
                 },
-                {
-                    "topic" : "extra topic"
-                }
+      					{
+                    "id" : "2",
+                    "type" : "data_collect",
+                    "topic" : "data1"
+                },
             ]
         },
         {
             "name": "end2",
             "ip" : "192.168.1.103",
+            "mqtt_broker" : "false",
             "modules": [
                 {
-                    "name" : "1",
-                    "type" : "thermocouple",
-                    "specifications" : "" 
+                    "id" : "1",
+                    "type" : "linax_driver",
+                    "topic" : "linax"
                 }
             ]
         }
